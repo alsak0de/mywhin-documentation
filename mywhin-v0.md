@@ -1,1 +1,40 @@
-\n\n# Introduction\n\nMywhin is an API-based WhatsApp client that allows users to programmatically interact with WhatsApp. This document will provide a tutorial on how to use Mywhin programmatically, assuming the user knows how to execute an HTTP request with their preferred programming language. \n\n# Instance Management Functions\n\n## /qrpng (GET)\nThis endpoint returns a QR code that must be scanned from a WhatsApp app installed on a phone in order to initiate a WhatsApp tenant. \n\n## /status (GET)\nThis endpoint returns the status of your tenant. Possible values are: ``active``, ``sleep``, ``pending enrollment``. \n\n## /sleep (GET)\nThis endpoint switches the status to `sleep` state. \n\n## /resume (GET)\nThis endpoint switches the tenant from `sleep` to `active` state. \n\n## /unenroll (GET)\nThis endpoint wipes your instance and transitions it to `pending enrollment` state. You'll need to enroll using a new QR code to continue using the service. \n\n# Messaging Functions\n\n## /geturl (GET)\nThe response of this endpoint will be the URL defined as the webhook destination where the WhatsApp messages addressed to you will be delivered. \n\n## /seturl (POST)\nThis endpoint allows you to specify a valid URL to which you want the system to deliver the WhatsApp messages to. The body of the request needs to include a valid URL in a simple string format. \n\n## /wspout (POST)\nThis endpoint sends a WhatsApp message if the payload contains the right format. The payload needs to be a JSON with the following structure: \n\n```\n{\n‘number’:<phone or groupid>, \n[‘group’:’<true/false>’], \n‘msg’:{}\n}\n```\n\nThe `msg` key format can be explained by the following examples, which are valid schemes for the `msg` key: \n\n• To send a simple text:\n\n```\n{ \n\"text\" : \"this is a text sent from whin\" \n}\n```\n\n• To send a list:\n\n```\n{\n\"text\": \"This is a list\", \n\"footer\": \"nice footer, link: https://inutil.info\", \n\"title\": \"Amazing boldfaced list title\", \n\"buttonText\": \"Required, text on the button to view the list\", \n\"sections\": [ \n    { \n    \"title\": \"Section 1\", \n    \"rows\": [ \n        {\"title\": \"Option 1\", \"rowId\": \"option1\"}, \n        {\"title\": \"Option 2\", \"rowId\": \"option2\", \"description\": \"This is a description\"} \n    ] \n    }, \n    { \n    \"title\": \"Section 2\", \n    \"rows\": [ \n        {\"title\": \"Option 3\", \"rowId\": \"option3\"}, \n        {\"title\": \"Option 4\", \"rowId\": \"option4\", \"description\": \"This is a description V2\"} \n    ] \n    } \n]\n}\n```\n\n• To send some buttons:\n\n```\n{ \n\"text\": \"This is a button message\", \n\"footer\": \"Hello World\", \n\"buttons\": [ \n    {\"buttonId\": \"id1\", \"buttonText\": {\"displayText\": \"Button 1\"}, \"type\": 1}, \n    {\"buttonId\": \"id2\", \"buttonText\": {\"displayText\": \"Button 2\"}, \"type\": 1}, \n    {\"buttonId\": \"id3\", \"buttonText\": {\"displayText\": \"Button 3\"}, \"type\": 1} \n], \n\"headerType\": 1\n}\n```\n\n• To send a vCard:\n\n```\n{ \n\"contacts\": { \n    \"displayName\": \"whin\", \n    \"contacts\": [ \n        { \n        \"vcard\": \"BEGIN:VCARD\\nVERSION:3.0\\nFN:whin bot\\nORG:Inutil Labs;\\nTEL;type=CELL;type=VOICE;waid=34605797764:+34 605 797 764\\nEND:VCARD\" \n        } \n    ] \n}\n}\n```\n\n• To send a Location:\n\n```\n{ \n\"location\": { \n    \"degreesLatitude\": 40.4526941, \n    \"degreesLongitude\": -3.6897589 \n}\n}\n```\n\n• To send an Audio:\n\n```\n{ \n\"audio\": { \n    \"url\": \"https://www.mboxdrive.com/gundul.mp3\" \n}\n}\n```\n\n• To send a Video:\n\n```\n{ \n\"video\": { \n    \"url\": \"https://i.imgur.com/BYuofkh.mp4\" \n}\n}\n```\n\n• To send an Image:\n\n```\n{ \n\"image\": { \n    \"url\": \"https://i.imgur.com/F4sdrY4.jpeg\" \n}\n}\n```\n\n• To send a document:\n\n```\n{ \n\"document\": { \n    \"url\": \"https://file-examples.com/storage/feeb31b1716385276a318de/2017/10/file-sample_150kB.pdf\" \n}\n}\n```\n\n• To add a footer text to any media message, add a caption property:\n\n```\n{ \n\"image\": { \n    \"url\": \"https://i.imgur.com/Y6A0o7y.jpeg\" \n}, \n\"caption\": \"This is an image with text\"\n}\n\n{ \n\"video\": { \n    \"url\": \"https://i.imgur.com/vJXvxaG.mp4\" \n}, \n\"caption\": \"This is a video with text\"\n}\n```
+# Introduction
+
+Mywhin is an API-based WhatsApp client that allows users to programmatically interact with WhatsApp. This document will provide a tutorial on how to use Mywhin programmatically, assuming the user knows how to execute an HTTP request with their preferred programming language.
+
+# Instance Management Functions
+
+## /qrpng (GET)
+
+This endpoint returns a QR code that must be scanned from a WhatsApp app installed on a phone in order to initiate a WhatsApp tenant.
+
+## /status (GET)
+
+This endpoint returns the status of your tenant. Possible values are: `active`, `sleep`, `pending enrollment`.
+
+## /sleep (GET)
+
+This endpoint switches the status to `sleep` state.
+
+## /resume (GET)
+
+This endpoint switches the tenant from `sleep` to `active` state.
+
+## /unenroll (GET)
+
+This endpoint wipes your instance and transitions it to `pending enrollment` state. You'll need to enroll using a new QR code to continue using the service.
+
+# Messaging Functions
+
+## /geturl (GET)
+
+The response of this endpoint will be the URL defined as the webhook destination where the WhatsApp messages addressed to you will be delivered.
+
+## /seturl (POST)
+
+This endpoint allows you to specify a valid URL to which you want the system to deliver the WhatsApp messages to. The body of the request needs to include a valid URL in a simple string format.
+
+## /wspout (POST)
+
+This endpoint sends a WhatsApp message if the payload contains the right format. The payload needs to be a JSON with the following structure:
+
